@@ -7,6 +7,14 @@ locals {
   secret_key = file("./secretkey")
 }
 
+output "stronggokey" {
+  value = local.access_key
+}
+
+output "khoedidikey" {
+  value = local.secret_key
+}
+
 module "vpc" {
   source = "./modules/vpc"
   access_key = local.access_key
