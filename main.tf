@@ -2,17 +2,22 @@ provider "aws" {
   region     = "ap-southeast-2"
 }
 
+locals {
+  access_key = file("./accesskey")
+  secret_key = file("./secretkey")
+}
+
 module "vpc" {
   source = "./modules/vpc"
-  access_key = var.access_key
-  secret_key = var.secret_key
+  access_key = locals.access_key
+  secret_key = locals.secret_key
   vpc_cidr   = "10.0.0.0/16"
 }
 
 module "ec2" {
   source = "./modules/ec2"
-  access_key = var.access_key
-  secret_key = var.secret_key
+  access_key = locals.access_key
+  secret_key = locals.secret_key
   vpc_id     = module.vpc.aws_vpc_id
   subnet_1_id = module.vpc.subnet_1_id
   subnet_2_id = module.vpc.subnet_2_id

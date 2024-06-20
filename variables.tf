@@ -9,4 +9,3 @@ variable "secret_key" {
   type        = string
   default = file("./secretkey")
 }
-
