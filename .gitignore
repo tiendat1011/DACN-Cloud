@@ -33,6 +33,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-accesskey
-secretkey
 ed25519

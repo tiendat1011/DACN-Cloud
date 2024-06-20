@@ -2,11 +2,6 @@ provider "aws" {
   region     = "ap-southeast-2"
 }
 
-# locals {
-#   access_key = file("./accesskey")
-#   secret_key = file("./secretkey")
-# }
-
 module "vpc" {
   source = "./modules/vpc"
   vpc_cidr   = "10.0.0.0/16"
