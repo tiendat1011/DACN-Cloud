@@ -37,5 +37,5 @@ jobs:
               run: aws s3 cp s3://bucketdacn/state/terraform.tfstate .
             
             - name: Terraform destroy
-              run: terraform destroy
+              run: terraform destroy -auto-approve 
 
