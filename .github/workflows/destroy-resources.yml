@@ -19,7 +19,14 @@ jobs:
               with:
                 terraform_version: 1.3.0
                 terraform_wrapper: false
-                
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
+                aws-secret-access-key: ${{ env.AWS_SECRET_KEY }}
+                aws-region: ap-southeast-2   
+
             - name: SSH Private key
               run: echo '${{ env.SSH_SECRET_KEY }}' >> "ed25519"
 
