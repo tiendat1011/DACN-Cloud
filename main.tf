@@ -22,8 +22,8 @@ module "vpc" {
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "my-cluster"
-  cluster_version = "1.21"
-  subnets         = [module.vpc.subnet_1_id, module.vpc.subnet_2_id]
+  cluster_version = "1.30"
+  subnet_ids         = [module.vpc.subnet_1_id, module.vpc.subnet_2_id]
   vpc_id          = module.vpc.aws_vpc_id
 
   node_groups = {
