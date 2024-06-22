@@ -26,7 +26,7 @@ module "eks" {
   subnet_ids         = [module.vpc.subnet_1_id, module.vpc.subnet_2_id]
   vpc_id          = module.vpc.aws_vpc_id
 
-  node_groups = {
+  eks_managed_node_groups = {
     frontend_nodes = {
       desired_capacity = 1
       max_capacity     = 2
