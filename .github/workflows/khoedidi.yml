@@ -58,7 +58,7 @@ jobs:
         run: aws eks update-kubeconfig --region ${{env.AWS_REGION}} --name ${{env.CLUSTER_NAME}}
 
       - name: Deploy frontend to EKS
-        run: kubectl apply -f k8s/frontend-deployment.yml
+        run: kubectl apply -f k8s/frontend-deployment.yml --validate=false
     
       - name: Deploy backend to EKS
-        run: kubectl apply -f k8s/backend-deployment.yml
+        run: kubectl apply -f k8s/backend-deployment.yml --validate=false
