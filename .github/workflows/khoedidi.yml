@@ -55,7 +55,7 @@ jobs:
           sudo mv ./kubectl /usr/local/bin/kubectl
 
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --region ${{env.AWS_REGION}} --name ${{env.CLUSTER_NAME}}
+        run: aws eks --region ${{env.AWS_REGION}} update-kubeconfig --name ${{env.CLUSTER_NAME}}
 
       - name: Deploy frontend to EKS
         run: kubectl apply -f k8s/frontend-deployment.yml --validate=false
