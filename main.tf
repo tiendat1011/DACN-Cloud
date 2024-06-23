@@ -51,3 +51,8 @@ module "eks" {
     Terraform   = "true"
   }
 }
+
+output "kubeconfig" {
+  value = module.eks.kubeconfig
+  sensitive = true
+}

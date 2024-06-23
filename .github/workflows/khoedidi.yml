@@ -45,3 +45,21 @@ jobs:
 
       - name: Terraform apply
         run: terraform apply -auto-approve
+
+      - name: Extract kubeconfig
+        id: get_kubeconfig
+        run: echo "::set-output name=kubeconfig::$(terraform output -raw kubeconfig)"
+
+      - name: Write kubeconfig to file
+        run: echo "${{ steps.get_kubeconfig.outputs.kubeconfig }}" > kubeconfig
+  
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.21.2
+
+      - name: Deploy frontend to EKS
+        run: kubectl apply -f k8s/frontend-deployment.yml --kubeconfig kubeconfig
+    
+      - name: Deploy backend to EKS
+        run: kubectl apply -f k8s/backend-deployment.yml --kubeconfig kubeconfig
