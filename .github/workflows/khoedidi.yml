@@ -12,6 +12,8 @@ jobs:
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_KEY: ${{secrets.AWS_SECRET_KEY }}
       SSH_SECRET_KEY: ${{ secrets.SSH_SECRET_KEY }}
+      AWS_REGION: ap-southeast-2
+      CLUSTER_NAME: my-cluster
 
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +31,7 @@ jobs:
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ env.AWS_SECRET_KEY }}
-          aws-region: ap-southeast-2   
+          aws-region:  ${{  env.AWS_REGION }}
 
       - name: SSH Private key
         run: echo '${{ env.SSH_SECRET_KEY }}' >> "ed25519"
@@ -45,21 +47,17 @@ jobs:
 
       - name: Terraform apply
         run: terraform apply -auto-approve
-
-      - name: Extract kubeconfig
-        id: get_kubeconfig
-        run: echo "::set-output name=kubeconfig::$(terraform output -raw kubeconfig)"
-
-      - name: Write kubeconfig to file
-        run: echo "${{ steps.get_kubeconfig.outputs.kubeconfig }}" > kubeconfig
   
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: v1.21.2
 
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
+
       - name: Deploy frontend to EKS
-        run: kubectl apply -f k8s/frontend-deployment.yml --kubeconfig kubeconfig
+        run: kubectl apply -f k8s/frontend-deployment.yml
     
       - name: Deploy backend to EKS
-        run: kubectl apply -f k8s/backend-deployment.yml --kubeconfig kubeconfig
+        run: kubectl apply -f k8s/backend-deployment.yml
