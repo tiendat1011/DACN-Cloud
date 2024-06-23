@@ -25,6 +25,7 @@ module "eks" {
   cluster_version = "1.30"
   subnet_ids         = [module.vpc.subnet_1_id, module.vpc.subnet_2_id]
   vpc_id          = module.vpc.aws_vpc_id
+  cluster_endpoint_public_access  = true
 
   eks_managed_node_groups = {
     frontend_nodes = {
