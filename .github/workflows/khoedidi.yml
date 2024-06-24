@@ -64,8 +64,8 @@ jobs:
           echo "Checking connection to EKS cluster..."
           kubectl get nodes
 
-      - name: Deploy frontend to EKS
-        run: kubectl apply -f k8s/frontend-deployment.yml --validate=false
+      # - name: Deploy frontend to EKS
+      #   run: kubectl apply -f k8s/frontend-deployment.yml --validate=false
     
-      - name: Deploy backend to EKS
-        run: kubectl apply -f k8s/backend-deployment.yml --validate=false
+      # - name: Deploy backend to EKS
+      #   run: kubectl apply -f k8s/backend-deployment.yml --validate=false
