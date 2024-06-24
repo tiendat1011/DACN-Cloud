@@ -67,7 +67,7 @@ resource "aws_cloudwatch_log_group" "eks_cloudwatch" {
 
 # Create IAM Roles for service accounts
 data "tls_certificate" "tls" {
-  url = aws_eks_cluster.example.identity[0].oidc[0].issuer
+  url = aws_eks_cluster.eks.identity[0].oidc[0].issuer
 }
 
 resource "aws_iam_openid_connect_provider" "openid_connect_provider" {
@@ -103,7 +103,7 @@ resource "aws_iam_role" "service_accounts" {
 resource "aws_eks_node_group" "frontend_node_group" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "frontend-node-group"
-  node_role_arn   = aws_iam_role.example.arn
+  node_role_arn   = aws_iam_role.node_role.arn
   subnet_ids      = [var.subnet_1_id, var.subnet_2_id]
 
   scaling_config {
@@ -114,6 +114,11 @@ resource "aws_eks_node_group" "frontend_node_group" {
 
   update_config {
     max_unavailable = 1
+  }
+
+  remote_access {
+    ec2_ssh_key = var.key_name
+    source_security_group_ids = var.security_group_id
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
@@ -128,7 +133,7 @@ resource "aws_eks_node_group" "frontend_node_group" {
 resource "aws_eks_node_group" "backend_node_group" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "backend-node-group"
-  node_role_arn   = aws_iam_role.example.arn
+  node_role_arn   = aws_iam_role.node_role.arn
   subnet_ids      = [var.subnet_1_id, var.subnet_2_id]
 
   scaling_config {
