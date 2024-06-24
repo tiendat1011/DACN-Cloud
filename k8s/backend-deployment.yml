@@ -15,8 +15,9 @@ spec:
       containers:
       - name: backend
         image: tiendat1011/dacn-backend:latest
+        imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 7000
         env:
         - name: NODE_ENV
           value: "production"
@@ -31,5 +32,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3000
+      targetPort: 7000
   type: LoadBalancer
