@@ -8,6 +8,8 @@ jobs:
             AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
             AWS_SECRET_KEY: ${{secrets.AWS_SECRET_KEY}}
             SSH_SECRET_KEY: ${{secrets.SSH_SECRET_KEY}}
+            AWS_REGION: ap-southeast-2
+            CLUSTER_NAME: my-cluster
         
         runs-on: ubuntu-latest
         steps:
@@ -25,7 +27,24 @@ jobs:
               with:
                 aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
                 aws-secret-access-key: ${{ env.AWS_SECRET_KEY }}
-                aws-region: ap-southeast-2   
+                aws-region: ap-southeast-2
+            
+            - name: Install kubectl
+              run: |
+                curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+                chmod +x ./kubectl
+                sudo mv ./kubectl /usr/local/bin/kubectl
+        
+            - name: Update kubeconfig
+              run: |
+                aws eks --region ${{env.AWS_REGION}} update-kubeconfig --name ${{env.CLUSTER_NAME}}
+                kubectl config view
+
+            - name: Delete frontend from EKS
+              run: kubectl delete -f k8s/frontend-deployment.yml
+              
+            - name: Delete backend from EKS
+              run: kubectl delete -f k8s/backend-deployment.yml
 
             - name: SSH Private key
               run: echo '${{ env.SSH_SECRET_KEY }}' >> "ed25519"
