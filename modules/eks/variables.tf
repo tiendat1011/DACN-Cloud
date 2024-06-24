@@ -10,9 +10,9 @@ variable "subnet_1_id" {
 }
 
 variable "subnet_2_id" {
-    description = "Subnet 1 ID"
+    description = "Subnet 2 ID"
     type = string
-    default = "10.0.1.0/24"
+    default = "10.0.2.0/24"
 }
 
 variable "key_name" {
