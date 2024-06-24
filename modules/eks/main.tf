@@ -96,7 +96,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 
 resource "aws_iam_role" "service_accounts" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  name               = "Service accounts"
+  name               = "service-accounts-role"
 }
 
 # Create EKS Node Group
