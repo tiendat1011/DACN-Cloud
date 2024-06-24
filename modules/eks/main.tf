@@ -4,8 +4,6 @@ resource "aws_eks_cluster" "eks" {
 
   vpc_config {
     subnet_ids = [var.subnet_1_id, var.subnet_2_id]
-    endpoint_private_access = true
-    endpoint_public_access = false
   }
 
   enabled_cluster_log_types = [
