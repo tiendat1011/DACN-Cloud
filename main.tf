@@ -84,3 +84,7 @@ module "eks" {
   key_name = aws_key_pair.eks_keypair.key_name
   security_group_id = module.vpc.security_group_id
 }
+
+module "rotue53" {
+  source ="./modules/route53"
+}

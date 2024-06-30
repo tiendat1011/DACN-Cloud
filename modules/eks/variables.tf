@@ -23,3 +23,8 @@ variable "key_name" {
 variable "security_group_id" {
     description = "Security groups ID"
 }
+
+variable "vpc_id" {
+  description = "The VPC ID"
+  type        = string
+}

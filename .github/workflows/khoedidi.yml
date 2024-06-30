@@ -45,8 +45,8 @@ jobs:
       - name: Terraform plan
         run: terraform plan
 
-      - name: Terraform apply
-        run: terraform apply -auto-approve
+      - name: Terraform apply all specified targets
+        run: terraform apply -target=aws_key_pair.eks_keypair -target=module.vpc -target=module.eks -auto-approve
   
       - name: Install kubectl
         run: |
@@ -69,3 +69,13 @@ jobs:
     
       - name: Deploy backend to EKS
         run: kubectl apply -f k8s/backend-deployment.yml --validate=false
+
+      - name: Deploy Nginx Ingress as LoadBalancer
+        run: kubectl apply -f k8s/deploy.yml
+
+      - name: Terraform apply Route53
+        run: terraform apply
+
+      - name: Apply ingress
+        run: kubectl apply -f k8s/ingress.yml
+
