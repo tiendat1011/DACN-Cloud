@@ -2,11 +2,15 @@ data "aws_route53_zone" "selected" {
     name = var.hosted_zone_name
 }
 
-data "aws_lbs" "nginx_lb" {
+data "aws_lbs" "nginx_arn" {
   tags = {
    "kubernetes.io/cluster/my-cluster" = "owned"
    "kubernetes.io/service-name"    = "ingress-nginx/ingress-nginx-controller"
   }
+}
+
+data "aws_lb" "nginx_lb" {
+    arn = data.aws_lbs.nginx_arn.arns
 }
 
 resource "aws_route53_record" "frontend" {
@@ -15,8 +19,8 @@ resource "aws_route53_record" "frontend" {
   type    = "A"
 
   alias {
-    name                   = data.aws_lbs.nginx_lb.dns_name
-    zone_id                = data.aws_lbs.nginx_lb.zone_id
+    name                   = data.aws_lb.nginx_lb.dns_name
+    zone_id                = data.aws_lb.nginx_lb.zone_id
     evaluate_target_health = true
   }
 }
@@ -27,8 +31,8 @@ resource "aws_route53_record" "backend" {
   type    = "A"
 
   alias {
-    name                   = data.aws_lbs.nginx_lb.dns_name
-    zone_id                = data.aws_lbs.nginx_lb.zone_id
+    name                   = data.aws_lb.nginx_lb.dns_name
+    zone_id                = data.aws_lb.nginx_lb.zone_id
     evaluate_target_health = true
   }
 }
