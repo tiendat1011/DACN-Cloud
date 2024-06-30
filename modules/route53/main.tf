@@ -2,20 +2,11 @@ data "aws_route53_zone" "selected" {
     name = var.hosted_zone_name
 }
 
-data "aws_lb" "nginx_lb" {
-  filter {
-    name   = "tag:kubernetes.io/cluster/my-cluster"
-    values = [var.lb_tags["kubernetes.io/cluster/my-cluster"]]
+data "aws_lbs" "nginx_lb" {
+  tags = {
+   "kubernetes.io/cluster/my-cluster" = "owned"
+   "kubernetes.io/service-name"    = "ingress-nginx/ingress-nginx-controller"
   }
-
-  filter {
-    name   = "tag:kubernetes.io/service-name"
-    values = [var.lb_tags["ingress-nginx/ingress-nginx-controller"]]
-  }
-}
-
-resource "aws_route53_zone" "primary" {
-  name = var.hosted_zone_name
 }
 
 resource "aws_route53_record" "frontend" {
