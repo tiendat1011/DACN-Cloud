@@ -10,7 +10,7 @@ data "aws_lbs" "nginx_arn" {
 }
 
 data "aws_lb" "nginx_lb" {
-    arn = data.aws_lbs.nginx_arn.arns
+    arn = data.aws_lbs.nginx_arn.arns[0]
 }
 
 resource "aws_route53_record" "frontend" {
