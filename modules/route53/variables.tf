@@ -1,5 +1,8 @@
-variable "hosted_zone_name" {
-    description = "Name of hosted zone"
-    type = string
-    default = "tuilaphu.id.vn"
+variable "lb_tags" {
+  description = "Tags to identify the Load Balancer"
+  type        = map(string)
+  default     = {
+    kubernetes.io/cluster/my-cluster = "owned"
+    kubernetes.io/service-name    = "ingress-nginx/ingress-nginx-controller"
+  }
 }
