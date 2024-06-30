@@ -1,6 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: dacn-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: backend-deployment
 spec:
   replicas: 2

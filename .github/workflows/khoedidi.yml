@@ -71,7 +71,7 @@ jobs:
         run: kubectl apply -f k8s/deploy.yml
 
       - name: Terraform apply Route53
-        run: terraform apply
+        run: terraform apply -auto-approve
 
       - name: Apply ingress
         run: kubectl apply -f k8s/ingress.yml
