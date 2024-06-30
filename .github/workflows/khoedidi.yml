@@ -42,9 +42,6 @@ jobs:
       - name: Terraform validate
         run: terraform validate
 
-      - name: Terraform plan
-        run: terraform plan
-
       - name: Terraform apply all specified targets
         run: terraform apply -target=aws_key_pair.eks_keypair -target=module.vpc -target=module.eks -auto-approve
   
