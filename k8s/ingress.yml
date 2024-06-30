@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: frontend-ingress
-  namespace: dacn-frontend
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -23,7 +22,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: backend-ingress
-  namespace: dacn-backend
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
