@@ -8,7 +8,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "bucketdacn"
+    bucket = "bucket-dacn"
     key    = "state/terraform.tfstate"  
     region = "ap-southeast-2"  
   }
