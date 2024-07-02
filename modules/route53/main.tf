@@ -22,7 +22,7 @@ resource "aws_route53_record" "frontend" {
 
   alias {
     name                   = data.aws_lb.nginx_lb[0].dns_name
-    zone_id                = data.aws_lb.nginx_lb.zone_id
+    zone_id                = data.aws_lb.nginx_lb[0].zone_id
     evaluate_target_health = true
   }
 }
