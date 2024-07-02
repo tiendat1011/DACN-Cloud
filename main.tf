@@ -19,5 +19,4 @@ module "eks" {
 
 module "rotue53" {
   source ="./modules/route53"
-  is_destroy = var.is_destroy
 }
