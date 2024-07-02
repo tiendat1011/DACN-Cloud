@@ -52,10 +52,6 @@ jobs:
             - name: Downlaod terraform.tfstate from S3
               run: aws s3 cp s3://bucket-dacn/state/terraform.tfstate .
 
-            - name: Terraform destroy
-              run: terraform destroy -auto-approve
-              #-target=module.route53 -auto-approve
-
             - name: Delete frontend from EKS
               run: kubectl delete -f k8s/frontend-deployment.yml
               
