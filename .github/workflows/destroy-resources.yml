@@ -65,7 +65,7 @@ jobs:
               run: kubectl delete -f k8s/deploy.yml
             
             - name: Terraform destroy
-              run: terraform destroy -auto-approve
+              run: terraform destroy -var="is_destroy=true" -auto-approve
 
             
 

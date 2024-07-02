@@ -7,5 +7,4 @@ variable "hosted_zone_name" {
 variable "is_destroy" {
     description = "Resources is destroy or not"
     type = bool
-    default = false
 }
