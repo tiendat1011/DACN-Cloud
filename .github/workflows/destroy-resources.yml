@@ -50,7 +50,7 @@ jobs:
               run: echo '${{ env.SSH_SECRET_KEY }}' >> "ed25519"
 
             - name: Downlaod terraform.tfstate from S3
-              run: aws s3 cp s3://bucketdacn/state/terraform.tfstate .
+              run: aws s3 cp s3://bucket-dacn/state/terraform.tfstate .
 
             - name: Terraform destroy
               run: terraform destroy -target=module.route53 -auto-approve
