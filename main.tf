@@ -21,9 +21,3 @@ module "rotue53" {
   source ="./modules/route53"
   is_destroy = var.is_destroy
 }
-
-variable "is_destroy" {
-    description = "Resources is destroy or not"
-    type = bool
-    default = false
-}

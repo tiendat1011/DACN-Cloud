@@ -10,8 +10,7 @@ data "aws_lbs" "nginx_arn" {
 }
 
 data "aws_lb" "nginx_lb" {
-  count = var.is_destroy ? 0 : 1
-  arn = var.is_destroy ? "":tolist(data.aws_lbs.nginx_arn.arns)[0]
+  arn = tolist(data.aws_lbs.nginx_arn.arns)[0]
 }
 
 resource "aws_route53_record" "frontend" {
