@@ -43,7 +43,8 @@ jobs:
         run: terraform validate
 
       - name: Terraform apply all specified targets
-        run: terraform apply -target=aws_key_pair.eks_keypair -target=module.vpc -target=module.eks -auto-approve
+        run: terraform apply
+              # -target=aws_key_pair.eks_keypair -target=module.vpc -target=module.eks -auto-approve
   
       - name: Install kubectl
         run: |
