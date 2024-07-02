@@ -62,10 +62,10 @@ jobs:
           kubectl get nodes
 
       - name: Deploy frontend to EKS
-        run: kubectl apply -f k8s/frontend-deployment.yml --validate=false
+        run: kubectl apply -f k8s/frontend-deployment.yml 
     
       - name: Deploy backend to EKS
-        run: kubectl apply -f k8s/backend-deployment.yml --validate=false
+        run: kubectl apply -f k8s/backend-deployment.yml
 
       - name: Deploy Nginx Ingress as LoadBalancer
         run: kubectl apply -f k8s/deploy.yml

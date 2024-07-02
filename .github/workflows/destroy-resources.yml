@@ -46,6 +46,12 @@ jobs:
             - name: Terraform init
               run: terraform init
 
+            - name: SSH Private key
+              run: echo '${{ env.SSH_SECRET_KEY }}' >> "ed25519"
+
+            - name: Downlaod terraform.tfstate from S3
+              run: aws s3 cp s3://bucketdacn/state/terraform.tfstate .
+
             - name: Terraform destroy
               run: terraform destroy -target=module.route53 -auto-approve
 
@@ -57,12 +63,6 @@ jobs:
 
             - name: Delete frontend from EKS
               run: kubectl delete -f k8s/deploy.yml
-
-            - name: SSH Private key
-              run: echo '${{ env.SSH_SECRET_KEY }}' >> "ed25519"
-
-            - name: Downlaod terraform.tfstate from S3
-              run: aws s3 cp s3://bucketdacn/state/terraform.tfstate .
             
             - name: Terraform destroy
               run: terraform destroy -auto-approve
