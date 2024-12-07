@@ -18,6 +18,28 @@ module "vpc" {
   azs                     = length(data.aws_availability_zones.azs) > var.az_count ? slice(data.aws_availability_zones.azs, 0, var.az_count) : data.aws_availability_zones.azs
 }
 
+module "internet_gateway" {
+  source = "../../modules/internet_gateway"
+
+  vpc_id = module.vpc.vpc_id
+}
+
+module "nat_gateway" {
+  source = "../../modules/nat_gateway"
+
+  public_subnet_ids = module.vpc.public_subnet_ids
+}
+
+module "route_table" {
+  source = "../../modules/route_table"
+
+  vpc_id = module.vpc.vpc_id
+  igw_id = module.internet_gateway.igw_id
+  nat_gw_id = module.nat_gateway.nat_gateway_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+  private_subnet_ids = module.vpc.private_subnet_ids
+}
+
 # Create EKS Cluster and Node group
 module "eks" {
   source            = "../../modules/eks"
