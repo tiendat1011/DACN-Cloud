@@ -40,6 +40,78 @@ module "route_table" {
   private_subnet_ids = module.vpc.private_subnet_ids
 }
 
+module "default_private_security_group" {
+  source = "../../modules/security_group"
+
+  name_sg = var.default_private_name_sg
+  description_sg = var.default_private_description_sg
+  vpc_id = module.vpc.vpc_id
+
+  ingress_rules = [
+    {
+      description = "SSH from user IP"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = []
+      security_groups = [module.default_public_security_group.security_group_id]
+    },
+  ]
+
+  egress_rules = [
+    {
+      description = "Allow all outbound traffics"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+}
+
+module "default_public_security_group" {
+  source = "../../modules/security_group"
+
+  name_sg = var.default_public_name_sg 
+  description_sg = var.default_public_description_sg
+  vpc_id = module.vpc.vpc_id
+  ingress_rules = [
+    {
+      description = "SSH from public instances"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = var.ssh_ips
+      security_groups = []
+    },
+    {
+      description = "HTTP from anywhere"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      security_groups = []
+    },
+    {
+      description = "HTTPS from anywhere"
+      from_port = 443
+      to_port = 443
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      security_groups = []
+    }
+  ]
+  egress_rules = [
+    {
+      description = "Allow all outbound traffics"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+}
+
 # Create EKS Cluster and Node group
 module "eks" {
   source            = "../../modules/eks"
