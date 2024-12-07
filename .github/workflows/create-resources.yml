@@ -1,8 +1,8 @@
 name: "Terraform"
 on:
   workflow_dispatch:
-  push:
-    branches: ["main"]
+  # push:
+  #   branches: ["main"]
 permissions: read-all
 jobs:
   terraform:

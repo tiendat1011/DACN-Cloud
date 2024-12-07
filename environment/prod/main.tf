@@ -1,13 +1,24 @@
+data "aws_availability_zones" "azs" {
+  state = "available"
+}
+
 resource "aws_key_pair" "eks_keypair" {
   key_name   = "eks-ed25519-key"
   public_key = file("./ed25519.pub")
 }
 
+# Create a VPC
 module "vpc" {
   source = "./modules/vpc"
-  vpc_cidr   = "10.0.0.0/16"
+
+  vpc_cidr   = var.vpc_cidr
+  public_subnet_block = var.public_subnet_block
+  private_subnet_block = var.private_subnet_block
+  map_public_ip_on_launch = var.map_public_ip_on_launch
+  azs = length(data.aws_availability_zones.azs) > var.az_count ? slice(data.aws_availability_zones.azs, 0, var.az_count) : data.aws_availability_zones.azs
 }
 
+# Create EKS Cluster and Node group
 module "eks" {
   source = "./modules/eks"
   cluster_name = "my-cluster"
