@@ -5,7 +5,7 @@ terraform {
 terraform {
   backend "s3" {
     bucket = "bucket-dacn"
-    key    = "state/terraform.tfstate"  
-    region = "ap-southeast-2"  
+    key    = "state/terraform.tfstate"
+    region = "ap-southeast-2"
   }
 }
